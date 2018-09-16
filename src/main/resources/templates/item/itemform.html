@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Equipment Item Form</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.3.5/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen"/>
+
+    <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
+            th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+
+    <link href="../../static/css/spring-core.css"
+          th:href="@{css/spring-core.css}" rel="stylesheet" media="screen"/>
+</head>
+<body>
+<div class="container">
+
+    <h2>Item Details</h2>
+    <div>
+        <form class="form-horizontal" th:object="${itemForm}" th:action="@{/item}" method="post">
+
+            <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+                <p th:text="#{form.hasErrors}">Error Message</p>
+            </div>
+
+            <input type="hidden" th:field="*{id}"/>
+
+            <div class="form-group" th:class="${#fields.hasErrors('name')} ? 'form-group has-error' : 'form-group'">
+                <label class="col-sm-2 control-label">Name:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" th:field="*{name}" th:errorclass="has-error"/>
+
+                    <span class="help-block">
+                       <ul>
+                           <li th:each="err : ${#fields.errors('name')}" th:text="${err}" />
+                       </ul>
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group" th:class="${#fields.hasErrors('SerialNumber')} ? 'form-group has-error' : 'form-group'">
+                <label class="col-sm-2 control-label">Serial Number:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" th:field="*{SerialNumber}" th:errorclass="has-error"/>
+
+                    <span class="help-block">
+                       <ul>
+                           <li th:each="err : ${#fields.errors('SerialNumber')}" th:text="${err}" />
+                       </ul>
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group" th:class="${#fields.hasErrors('internalNumber')} ? 'form-group has-error' : 'form-group'">
+                <label class="col-sm-2 control-label">Internal Number:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" th:field="*{internalNumber}" th:errorclass="has-error"/>
+
+                    <span class="help-block">
+                       <ul>
+                           <li th:each="err : ${#fields.errors('internalNumber')}" th:text="${err}" />
+                       </ul>
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group" th:class="${#fields.hasErrors('sourceOfDelivery')} ? 'form-group has-error' : 'form-group'">
+                <label class="col-sm-2 control-label">Source of Delivery:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" th:field="*{sourceOfDelivery}" th:errorclass="has-error"/>
+
+                    <span class="help-block">
+                       <ul>
+                           <li th:each="err : ${#fields.errors('sourceOfDelivery')}" th:text="${err}" />
+                       </ul>
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group" th:class="${#fields.hasErrors('deliveryDate')} ? 'form-group has-error' : 'form-group'">
+                <label class="col-sm-2 control-label">Delivery Date:</label>
+                <div class="col-sm-10">
+                    <input type="date" class="form-control" th:field="*{deliveryDate}" th:errorclass="has-error"/>
+
+                    <span class="help-block">
+                       <ul>
+                           <li th:each="err : ${#fields.errors('deliveryDate')}" th:text="${err}" />
+                       </ul>
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <button type="submit" class="btn btn-default">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
