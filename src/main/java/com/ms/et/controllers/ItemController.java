@@ -30,11 +30,6 @@ public class ItemController {
         mItemService = itemService;
     }
 
-    @RequestMapping("/")
-    public String redirToList() {
-        return "redirect:/item/list";
-    }
-
     @RequestMapping({"/item/list", "/item"})
     public String listItems(Model model) {
         model.addAttribute("items", mItemService.listAll());
