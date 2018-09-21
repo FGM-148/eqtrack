@@ -1,0 +1,9 @@
+.attach_pid17371
+.classpath
+.idea/
+.project
+.settings/
+.vscode/
+src/.classpath
+src/.project
+target
