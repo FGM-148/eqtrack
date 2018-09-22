@@ -14,6 +14,7 @@ public class User {
     private String password;
     @Column(unique = true)
     private String email;
+    private boolean enabled;
 
     public Long getId() { return id; }
 
@@ -26,6 +27,14 @@ public class User {
     public String getPassword() { return password; }
 
     public void setPassword(String _password) { password = _password; }
+
+    public String getEmail() { return email; }
+
+    public void setEmail(String _email) { email = _email; }
+
+    public boolean isEnabled() { return enabled; }
+
+    public void setEnabled(boolean _enabled) { enabled = _enabled; }
 
     public List<Role> getRoles() { return roles; }
 

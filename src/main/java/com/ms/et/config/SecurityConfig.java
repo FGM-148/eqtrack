@@ -1,13 +1,16 @@
 package com.ms.et.config;
 
+import com.ms.et.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -15,13 +18,32 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    UserDetailsService userDetailsService;
+
+    @Autowired
+    public PasswordEncoder encoder;
+
     @Bean
     public PasswordEncoder getPasswordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
-    @Autowired
-    public PasswordEncoder encoder;
+    @Bean
+    public DaoAuthenticationProvider authProvider() {
+        final CustomAuthenticationProvider authProvider
+                = new CustomAuthenticationProvider(userRepository, userDetailsService);
+        authProvider.setPasswordEncoder(encoder);
+        return authProvider;
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(authProvider());
+    }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -33,23 +55,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers("/item/show").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/item/new").hasAnyRole("ADMIN")
+                .antMatchers("/item/show").hasAuthority("READ_ITEM_PRIVILEGE")
+                .antMatchers("/item/new").hasAuthority("WRITE_ITEM_PRIVILEGE")
+                .antMatchers("item/edit").hasAuthority("EDIT_ITEM_PRIVILEGE")
                 .anyRequest().authenticated().and()
                 .formLogin().permitAll().and()
                 .logout().permitAll();
 
         http.csrf().disable();
     }
-
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder authenticationMgr) throws Exception {
-
-        authenticationMgr.inMemoryAuthentication()
-                .withUser("user").password(encoder.encode("ti2018"))
-                .authorities("ROLE_USER").and()
-                .withUser("admin").password(encoder.encode("ti2018"))
-                .authorities("ROLE_USER", "ROLE_ADMIN");
-    }
-
 }
