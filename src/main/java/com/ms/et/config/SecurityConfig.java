@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -30,6 +31,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder getPasswordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler(){
+        return new CustomAccessDeniedHandler();
     }
 
     @Bean
@@ -57,9 +63,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/item/show").hasAuthority("READ_ITEM_PRIVILEGE")
                 .antMatchers("/item/new").hasAuthority("WRITE_ITEM_PRIVILEGE")
-                .antMatchers("item/edit").hasAuthority("EDIT_ITEM_PRIVILEGE")
+                .antMatchers("/item/edit").hasAuthority("EDIT_ITEM_PRIVILEGE")
+                .antMatchers("/user/**").hasAuthority("SUPERADMIN_PRIVILEGE")
                 .anyRequest().authenticated().and()
                 .formLogin().permitAll().and()
+                .exceptionHandling().accessDeniedPage("/accessDenied").and()
+                .exceptionHandling().accessDeniedHandler(accessDeniedHandler()).and()
                 .logout().permitAll();
 
         http.csrf().disable();

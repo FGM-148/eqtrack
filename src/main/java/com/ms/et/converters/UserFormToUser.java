@@ -5,6 +5,7 @@ import com.ms.et.domain.Role;
 import com.ms.et.domain.User;
 import com.ms.et.services.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,7 @@ public class UserFormToUser implements Converter<UserForm, User> {
     private RoleService roleService;
 
     @Autowired
+    @Lazy
     public void setEncoder(PasswordEncoder _encoder) {
         encoder = _encoder;
     }

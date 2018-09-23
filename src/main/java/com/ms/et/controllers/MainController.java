@@ -15,5 +15,8 @@ public class MainController {
     public String index() {
         return "index";
     }
+
+    @RequestMapping("/accessDenied")
+    public String accessDenied() { return "accessDenied"; }
 }
 
