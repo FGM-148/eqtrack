@@ -1,7 +1,6 @@
 package com.ms.et.domain;
 
 import javax.persistence.*;
-import java.sql.Date;
 
 @Entity
 @Table(name = "itemChangeLogs")
@@ -10,7 +9,9 @@ public class ItemChangeLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String event;
-    private Date eventDate;
+    @Basic
+    @Temporal(TemporalType.TIMESTAMP)
+    private java.util.Date eventTimestamp;
     @ManyToOne
     @JoinColumn(name = "items_id")
     private Item item;
@@ -31,12 +32,12 @@ public class ItemChangeLog {
         this.event = event;
     }
 
-    public Date getEventDate() {
-        return eventDate;
+    public java.util.Date getEventDate() {
+        return eventTimestamp;
     }
 
-    public void setEventDate(Date eventDate) {
-        this.eventDate = eventDate;
+    public void setEventDate(java.util.Date eventDate) {
+        this.eventTimestamp = eventDate;
     }
 
     public Item getItem() {

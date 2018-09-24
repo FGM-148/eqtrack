@@ -3,10 +3,13 @@ package com.ms.et.services;
 import com.ms.et.commands.ItemForm;
 import com.ms.et.converters.ItemFormToItem;
 import com.ms.et.domain.Item;
+import com.ms.et.domain.ItemChangeLog;
+import com.ms.et.repositories.ItemChangeLogRepository;
 import com.ms.et.repositories.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,11 +18,15 @@ public class ItemServiceImpl implements ItemService{
 
     private ItemRepository mItemRepository;
     private ItemFormToItem mItemFormToItem;
+    private ItemChangeLogRepository itemChangeLogRepository;
 
     @Autowired
-    public ItemServiceImpl(ItemRepository itemRepository, ItemFormToItem itemFormToItem) {
+    public ItemServiceImpl(ItemRepository itemRepository,
+                           ItemFormToItem itemFormToItem,
+                           ItemChangeLogRepository itemChangeLogRepository) {
         mItemRepository = itemRepository;
         mItemFormToItem = itemFormToItem;
+        this.itemChangeLogRepository = itemChangeLogRepository;
     }
 
     @Override
@@ -36,7 +43,21 @@ public class ItemServiceImpl implements ItemService{
 
     @Override
     public Item saveOrUpdate(Item item) {
+        boolean newItem = false;
+        if (item.getId() == null) {
+            newItem = true;
+        }
         mItemRepository.save(item);
+        ItemChangeLog itemChangeLog = new ItemChangeLog();
+        itemChangeLog.setEventDate(new java.util.Date(System.currentTimeMillis()));
+        itemChangeLog.setItem(item);
+        if (newItem) {
+            itemChangeLog.setEvent("Created");
+        }
+        else {
+            itemChangeLog.setEvent("Edited");
+        }
+        itemChangeLogRepository.save(itemChangeLog);
         return item;
     }
 
