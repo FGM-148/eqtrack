@@ -8,6 +8,7 @@ import com.ms.et.repositories.RoleRepository;
 import com.ms.et.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -32,6 +33,7 @@ public class InitDataLoader implements ApplicationListener<ContextRefreshedEvent
     private PrivilegeRepository privilegeRepository;
 
     @Autowired
+    @Lazy
     private PasswordEncoder passwordEncoder;
 
     @Override
@@ -45,12 +47,15 @@ public class InitDataLoader implements ApplicationListener<ContextRefreshedEvent
         Privilege readPrivilege = createPrivilegeIfNotFound("READ_ITEM_PRIVILEGE");
         Privilege writePrivilege = createPrivilegeIfNotFound("WRITE_ITEM_PRIVILEGE");
         Privilege editPrivilege = createPrivilegeIfNotFound("EDIT_ITEM_PRIVILEGE");
+        Privilege sadminPrivilege = createPrivilegeIfNotFound("SUPERADMIN_PRIVILEGE");
 
         // == create initial roles
         List<Privilege> adminPrivileges = Arrays.asList(readPrivilege, writePrivilege, editPrivilege);
+        List<Privilege> sadminPrivileges = Arrays.asList(sadminPrivilege, readPrivilege, writePrivilege, editPrivilege);
         createRoleIfNotFound("ROLE_ADMIN", adminPrivileges);
         List<Privilege> rolePrivileges = Arrays.asList(readPrivilege);
         createRoleIfNotFound("ROLE_USER", rolePrivileges);
+        createRoleIfNotFound("ROLE_SADMIN", sadminPrivileges);
 
         Role adminRole = roleRepository.findByName("ROLE_ADMIN");
         User user = new User();
@@ -69,6 +74,16 @@ public class InitDataLoader implements ApplicationListener<ContextRefreshedEvent
         basicUser.setRoles(Arrays.asList(basicRole));
         basicUser.setEnabled(true);
         createUserIfNotFound(basicUser);
+
+        Role sadminRole = roleRepository.findByName("ROLE_SADMIN");
+        User sadmin = new User();
+        sadmin.setName("sadmin");
+        sadmin.setEmail("sadmin@test.com");
+        sadmin.setPassword(passwordEncoder.encode("a"));
+        sadmin.setRoles(Arrays.asList(sadminRole));
+
+        sadmin.setEnabled(true);
+        createUserIfNotFound(sadmin);
 
         alreadySetup = true;
     }

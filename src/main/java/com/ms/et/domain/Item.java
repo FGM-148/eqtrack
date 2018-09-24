@@ -4,6 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "items")
@@ -18,12 +19,20 @@ public class Item {
     private String name;
     private String serialNumber;
     private String internalNumber;
+    private boolean disposed;
+    @ManyToOne
+    @JoinColumn(name = "companies_id")
+    private Company company;
+    @OneToMany(mappedBy = "item")
+    private Set<ItemChangeLog> itemChangeLogs;
+    @ManyToOne
+    @JoinColumn(name = "projects_id")
+    private Project project;
 //    @Lob
 //    private byte[] mImage;
 //    private HardwareOwner mHardwareOwner;
 //    private Receipt mReceipt;
 //    private HardwareType mHardwareType;
-//    private Person mAssignee;
 //    private HardwareHistory mHardwareHistory;
 
     public Long getId() { return id; }
@@ -68,12 +77,44 @@ public class Item {
         internalNumber = _internalNumber;
     }
 
-//    public byte[] getImage() {
+    public boolean isDisposed() { return disposed; }
+
+    public void setDisposed(boolean _disposed) { disposed = _disposed; }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public Set<ItemChangeLog> getItemChangeLogs() {
+        return itemChangeLogs;
+    }
+
+    public void setItemChangeLogs(Set<ItemChangeLog> itemChangeLogs) {
+        this.itemChangeLogs = itemChangeLogs;
+    }
+
+    //    public byte[] getImage() {
 //        return mImage;
 //    }
 //
 //    public void setImage(byte[] image) {
 //        mImage = mImage;
 //    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User _user) {
+        user = _user;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "users_id")
+    private User user;
 
 }

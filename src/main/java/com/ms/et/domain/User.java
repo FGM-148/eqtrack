@@ -2,6 +2,7 @@ package com.ms.et.domain;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -48,4 +49,14 @@ public class User {
         inverseJoinColumns = @JoinColumn(
           name = "role_id", referencedColumnName = "id"))
     private List<Role> roles;
+
+    private Set<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(Set<Item> _items) { items = _items; }
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Item> items;
+
 }
