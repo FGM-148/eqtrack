@@ -1,9 +1,7 @@
 package com.ms.et.services;
 
-import com.ms.et.domain.Item;
 import com.ms.et.domain.ItemChangeLog;
 import com.ms.et.repositories.ItemChangeLogRepository;
-import com.ms.et.repositories.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
