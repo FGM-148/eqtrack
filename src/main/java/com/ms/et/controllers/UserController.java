@@ -54,6 +54,7 @@ public class UserController {
         UserForm userForm = userToUserForm.convert(user);
 
         model.addAttribute("userForm", userForm);
+        model.addAttribute("allRoles", roleService.listAll());
         return "user/userform";
     }
 

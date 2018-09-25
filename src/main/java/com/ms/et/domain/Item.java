@@ -13,7 +13,9 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String sourceOfDelivery;
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    private Address sourceOfDelivery;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date deliveryDate;
     private String name;
@@ -39,11 +41,11 @@ public class Item {
 
     public void setId(Long _id) { id = _id; }
 
-    public String getSourceOfDelivery() {
+    public Address getSourceOfDelivery() {
         return sourceOfDelivery;
     }
 
-    public void setSourceOfDelivery(String _sourceOfDelivery) {
+    public void setSourceOfDelivery(Address _sourceOfDelivery) {
         sourceOfDelivery = _sourceOfDelivery;
     }
 

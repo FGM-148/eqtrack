@@ -61,6 +61,19 @@
                         <p class="form-control-static" th:text="${item.deliveryDate}">Delivery Date</p>
                     </div>
                 </div>
+                <table class="table table-striped">
+                    <div th:if="${not #lists.isEmpty(logs)}">
+                        <h2>Item History:</h2>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Event</th>
+                    </tr>
+                    <tr th:each="log : ${logs}">
+                        <td th:text="${log.eventDate}"></td>
+                        <td th:text="${log.event}"></td>
+                    </tr>
+                    </div>
+                </table>
             </form>
         </div>
     </div>

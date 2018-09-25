@@ -1,6 +1,7 @@
 package com.ms.et.domain;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "addresses")
@@ -15,6 +16,8 @@ public class Address {
     private Integer postalCode;
     @OneToOne(mappedBy = "address")
     private Company company;
+    @OneToMany(mappedBy = "sourceOfDelivery")
+    private Set<Item> items;
 
     public Integer getPostalCode() {
         return postalCode;
@@ -62,5 +65,35 @@ public class Address {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    @Override
+    public String toString() {
+        return city + ", " + country;
+    }
+
+    public Set<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(Set<Item> items) {
+        this.items = items;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof Address)) {
+            return false;
+        }
+        Address address = (Address) o;
+        if (!country.equals(address.country)) return false;
+        if (!city.equals(address.city)) return false;
+        if (!street.equals(address.street)) return false;
+        if (!number.equals(address.number)) return false;
+        if (!postalCode.equals(address.postalCode)) return false;
+        return true;
     }
 }

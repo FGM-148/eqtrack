@@ -36,6 +36,10 @@
                 <td th:text="${item.serialNumber}"></td>
                 <td th:text="${item.internalNumber}"></td>
                 <td th:text="${item.sourceOfDelivery}"></td>
+                <!--<td th:text="${item.sourceOfDelivery.city}"></td>-->
+                <!--<td th:text="${item.sourceOfDelivery.postalCode}"></td>-->
+                <!--<td th:text="${item.sourceOfDelivery.street}"></td>-->
+                <!--<td th:text="${item.sourceOfDelivery.number}"></td>-->
                 <td th:text="${item.deliveryDate}"></td>
                 <td><a th:href="${'/item/show/' + item.id}">View</a> </td>
                 <td><a th:href="${'/item/edit/' + item.id}">Edit</a> </td>

@@ -4,11 +4,11 @@ import java.sql.Date;
 
 public class ItemForm {
     private Long id;
-    private String mSourceOfDelivery;
     private Date mDeliveryDate;
     private String mName;
     private String mSerialNumber;
     private String mInternalNumber;
+    private AddressForm sourceOfDelivery;
 
     public Long getId() {
         return id;
@@ -16,14 +16,6 @@ public class ItemForm {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getSourceOfDelivery() {
-        return mSourceOfDelivery;
-    }
-
-    public void setSourceOfDelivery(String sourceOfDelivery) {
-        mSourceOfDelivery = sourceOfDelivery;
     }
 
     public Date getDeliveryDate() {
@@ -54,5 +46,13 @@ public class ItemForm {
 
     public void setInternalNumber(String internalNumber) {
         mInternalNumber = internalNumber;
+    }
+
+    public AddressForm getSourceOfDelivery() {
+        return sourceOfDelivery;
+    }
+
+    public void setSourceOfDelivery(AddressForm sourceOfDelivery) {
+        this.sourceOfDelivery = sourceOfDelivery;
     }
 }

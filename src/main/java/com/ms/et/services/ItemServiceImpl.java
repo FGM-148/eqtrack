@@ -2,8 +2,10 @@ package com.ms.et.services;
 
 import com.ms.et.commands.ItemForm;
 import com.ms.et.converters.ItemFormToItem;
+import com.ms.et.domain.Address;
 import com.ms.et.domain.Item;
 import com.ms.et.domain.ItemChangeLog;
+import com.ms.et.repositories.AddressRepository;
 import com.ms.et.repositories.ItemChangeLogRepository;
 import com.ms.et.repositories.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +21,17 @@ public class ItemServiceImpl implements ItemService{
     private ItemRepository mItemRepository;
     private ItemFormToItem mItemFormToItem;
     private ItemChangeLogRepository itemChangeLogRepository;
+    private AddressRepository addressRepository;
 
     @Autowired
     public ItemServiceImpl(ItemRepository itemRepository,
                            ItemFormToItem itemFormToItem,
-                           ItemChangeLogRepository itemChangeLogRepository) {
+                           ItemChangeLogRepository itemChangeLogRepository,
+                           AddressRepository addressRepository) {
         mItemRepository = itemRepository;
         mItemFormToItem = itemFormToItem;
         this.itemChangeLogRepository = itemChangeLogRepository;
+        this.addressRepository = addressRepository;
     }
 
     @Override
@@ -44,8 +49,21 @@ public class ItemServiceImpl implements ItemService{
     @Override
     public Item saveOrUpdate(Item item) {
         boolean newItem = false;
+        boolean addressExists = false;
         if (item.getId() == null) {
             newItem = true;
+        }
+        Address address = item.getSourceOfDelivery();
+        Iterable<Address> allAddress = addressRepository.findAll();
+        for (Address a : allAddress) {
+            if (a.equals(address)) {
+                addressExists = true;
+                item.setSourceOfDelivery(a);
+                break;
+            }
+        }
+        if (!addressExists) {
+            addressRepository.save(item.getSourceOfDelivery());
         }
         mItemRepository.save(item);
         ItemChangeLog itemChangeLog = new ItemChangeLog();

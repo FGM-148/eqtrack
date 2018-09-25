@@ -1,5 +1,6 @@
 package com.ms.et.controllers;
 
+import com.ms.et.commands.AddressForm;
 import com.ms.et.commands.ItemForm;
 import com.ms.et.converters.ItemToItemForm;
 import com.ms.et.domain.Item;
@@ -38,7 +39,9 @@ public class ItemController {
 
     @RequestMapping("/item/show/{id}")
     public String getItem(@PathVariable String id, Model model) {
-        model.addAttribute("item", mItemService.getById(Long.valueOf(id)));
+        Item item = mItemService.getById(Long.valueOf(id));
+        model.addAttribute("item", item);
+        model.addAttribute("logs", item.getItemChangeLogs());
         return "item/show";
     }
 

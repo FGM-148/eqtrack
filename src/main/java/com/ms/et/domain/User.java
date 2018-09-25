@@ -56,7 +56,7 @@ public class User {
 
     public void setItems(Set<Item> _items) { items = _items; }
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.DETACH)
     private Set<Item> items;
 
 }
