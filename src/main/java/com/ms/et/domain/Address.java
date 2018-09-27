@@ -14,8 +14,8 @@ public class Address {
     private String street;
     private String number;
     private Integer postalCode;
-    @OneToOne(mappedBy = "address")
-    private Company company;
+    @OneToMany(mappedBy = "address")
+    private Set<Company> companys;
     @OneToMany(mappedBy = "sourceOfDelivery")
     private Set<Item> items;
 
@@ -78,6 +78,14 @@ public class Address {
 
     public void setItems(Set<Item> items) {
         this.items = items;
+    }
+
+    public Set<Company> getCompanys() {
+        return companys;
+    }
+
+    public void setCompanys(Set<Company> companys) {
+        this.companys = companys;
     }
 
     @Override

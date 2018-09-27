@@ -4,7 +4,6 @@ import com.ms.et.domain.Address;
 import com.ms.et.domain.Company;
 import com.ms.et.domain.Item;
 import com.ms.et.repositories.AddressRepository;
-import com.ms.et.services.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

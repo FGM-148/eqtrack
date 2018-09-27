@@ -11,7 +11,7 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;
     @OneToMany(mappedBy = "company")

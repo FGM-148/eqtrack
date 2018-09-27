@@ -72,7 +72,8 @@ public class UserController {
         }
 
         User savedUser = userService.saveOrUpdateUserForm(userForm);
-        return "redirect:/user/show/" + savedUser.getId();
+//        return "redirect:/user/show/" + savedUser.getId();
+        return "redirect:/user/list";
     }
 
     @RequestMapping("user/delete/{id}")

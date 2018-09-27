@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>User List</title>
+    <title>Company List</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
     <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
@@ -16,34 +16,30 @@
 </head>
 <body>
 <div class="container">
-    <div th:if="${not #lists.isEmpty(users)}">
-        <h2>User List:</h2>
+    <div th:if="${not #lists.isEmpty(companys)}">
+        <h2>Company List:</h2>
         <table class="table table-striped">
             <tr>
                 <th>Id</th>
-                <th>Login</th>
-                <th>Email address</th>
-                <th>Enabled Account</th>
-                <th>Roles</th>
+                <th>Name</th>
+                <th>Company address</th>
                 <th>View</th>
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
-            <tr th:each="user : ${users}">
-                <td th:text="${user.id}"></td>
-                <td th:text="${user.name}"></td>
-                <td th:text="${user.email}"></td>
-                <td th:text="${user.enabled}"></td>
-                <td th:text="${user.roles}"></td>
-                <td><a th:href="${'/user/show/' + user.id}">View</a> </td>
-                <td><a th:href="${'/user/edit/' + user.id}">Edit</a> </td>
-                <td><a th:href="${'/user/delete/' + user.id}">Delete</a> </td>
+            <tr th:each="company : ${companys}">
+                <td th:text="${company.id}"></td>
+                <td th:text="${company.name}"></td>
+                <td th:text="${company.address}"></td>
+                <td><a th:href="${'/company/show/' + company.id}">View</a> </td>
+                <td><a th:href="${'/company/edit/' + company.id}">Edit</a> </td>
+                <td><a th:href="${'/company/delete/' + company.id}">Delete</a> </td>
             </tr>
         </table>
     </div>
     <div class="row">
         <div class="col-sm-3">
-            <a href="/user/new">New User</a>
+            <a href="/company/new">New Company</a>
         </div>
         <div class="col-sm-3">
             <a href="/index">Main Menu</a>

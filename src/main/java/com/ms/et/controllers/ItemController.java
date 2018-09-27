@@ -1,6 +1,5 @@
 package com.ms.et.controllers;
 
-import com.ms.et.commands.AddressForm;
 import com.ms.et.commands.ItemForm;
 import com.ms.et.converters.ItemToItemForm;
 import com.ms.et.domain.Item;
@@ -18,28 +17,28 @@ import javax.validation.Valid;
 @Controller
 public class ItemController {
 
-    private ItemService mItemService;
-    private ItemToItemForm mItemToItemForm;
+    private ItemService itemService;
+    private ItemToItemForm itemToItemForm;
 
     @Autowired
     public void setItemToItemForm(ItemToItemForm itemToItemForm) {
-        mItemToItemForm = itemToItemForm;
+        this.itemToItemForm = itemToItemForm;
     }
 
     @Autowired
     public void setItemService(ItemService itemService) {
-        mItemService = itemService;
+        this.itemService = itemService;
     }
 
     @RequestMapping({"/item/list", "/item"})
     public String listItems(Model model) {
-        model.addAttribute("items", mItemService.listAll());
+        model.addAttribute("items", itemService.listAll());
         return "item/list";
     }
 
     @RequestMapping("/item/show/{id}")
     public String getItem(@PathVariable String id, Model model) {
-        Item item = mItemService.getById(Long.valueOf(id));
+        Item item = itemService.getById(Long.valueOf(id));
         model.addAttribute("item", item);
         model.addAttribute("logs", item.getItemChangeLogs());
         return "item/show";
@@ -47,8 +46,8 @@ public class ItemController {
 
     @RequestMapping("item/edit/{id}")
     public String edit(@PathVariable String id, Model model) {
-        Item item = mItemService.getById(Long.valueOf(id));
-        ItemForm itemForm = mItemToItemForm.convert(item);
+        Item item = itemService.getById(Long.valueOf(id));
+        ItemForm itemForm = itemToItemForm.convert(item);
 
         model.addAttribute("itemForm", itemForm);
         return "item/itemform";
@@ -66,13 +65,13 @@ public class ItemController {
             return "item/itemform";
         }
 
-        Item savedItem = mItemService.saveOrUpdateItemForm(itemForm);
+        Item savedItem = itemService.saveOrUpdateItemForm(itemForm);
         return "redirect:/item/show/" + savedItem.getId();
     }
 
     @RequestMapping("item/delete/{id}")
     public String delete(@PathVariable String id) {
-        mItemService.delete(Long.valueOf(id));
+        itemService.delete(Long.valueOf(id));
         return "redirect:/item/list";
     }
 }
