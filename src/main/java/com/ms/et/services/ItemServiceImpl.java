@@ -21,17 +21,17 @@ public class ItemServiceImpl implements ItemService{
     private ItemRepository mItemRepository;
     private ItemFormToItem mItemFormToItem;
     private ItemChangeLogRepository itemChangeLogRepository;
-    private AddressRepository addressRepository;
+    private AddressService addressService;
 
     @Autowired
     public ItemServiceImpl(ItemRepository itemRepository,
                            ItemFormToItem itemFormToItem,
                            ItemChangeLogRepository itemChangeLogRepository,
-                           AddressRepository addressRepository) {
+                           AddressService addressService) {
         mItemRepository = itemRepository;
         mItemFormToItem = itemFormToItem;
         this.itemChangeLogRepository = itemChangeLogRepository;
-        this.addressRepository = addressRepository;
+        this.addressService = addressService;
     }
 
     @Override
@@ -49,22 +49,10 @@ public class ItemServiceImpl implements ItemService{
     @Override
     public Item saveOrUpdate(Item item) {
         boolean newItem = false;
-        boolean addressExists = false;
         if (item.getId() == null) {
             newItem = true;
         }
-        Address address = item.getSourceOfDelivery();
-        Iterable<Address> allAddress = addressRepository.findAll();
-        for (Address a : allAddress) {
-            if (a.equals(address)) {
-                addressExists = true;
-                item.setSourceOfDelivery(a);
-                break;
-            }
-        }
-        if (!addressExists) {
-            addressRepository.save(item.getSourceOfDelivery());
-        }
+        addressService.saveOrUpdateItemAddress(item);
         mItemRepository.save(item);
         ItemChangeLog itemChangeLog = new ItemChangeLog();
         itemChangeLog.setEventDate(new java.util.Date(System.currentTimeMillis()));
