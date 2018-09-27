@@ -43,12 +43,12 @@ public class RoleForm {
         privileges = _privileges;
     }
 
-    public List<String> getAvailablePrivileges() {
-        List<Privilege> allPrivileges = privilegeService.listAll();
-        List<String> result = new ArrayList<>();
-        for (Privilege privilege : allPrivileges) {
-            result.add(privilege.getName());
-        }
-        return result;
-    }
+//    public List<String> getAvailablePrivileges() {
+//        List<Privilege> allPrivileges = privilegeService.listAll();
+//        List<String> result = new ArrayList<>();
+//        for (Privilege privilege : allPrivileges) {
+//            result.add(privilege.getName());
+//        }
+//        return result;
+//    }
 }

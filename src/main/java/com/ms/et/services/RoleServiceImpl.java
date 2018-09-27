@@ -3,7 +3,9 @@ package com.ms.et.services;
 import com.ms.et.commands.RoleForm;
 import com.ms.et.converters.RoleFormToRole;
 import com.ms.et.domain.Role;
+import com.ms.et.domain.User;
 import com.ms.et.repositories.RoleRepository;
+import com.ms.et.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,8 @@ public class RoleServiceImpl implements RoleService{
 
     private RoleRepository roleRepository;
     private RoleFormToRole roleFormToRole;
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     public RoleServiceImpl(RoleRepository _roleRepository, RoleFormToRole _roleFormToRole) {
@@ -47,6 +51,16 @@ public class RoleServiceImpl implements RoleService{
 
     @Override
     public void delete(Long id) {
+        Iterable<User> users = userRepository.findAll();
+        for (User user : users) {
+            List<Role> userRoles = user.getRoles();
+            for (int i = 0; i<userRoles.size(); i++) {
+                Role role = userRoles.get(i);
+                if (role.getId() == id)
+                    userRoles.remove(i);
+            }
+        }
+        userRepository.saveAll(users);
         roleRepository.deleteById(id);
     }
 

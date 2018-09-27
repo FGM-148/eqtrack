@@ -2,6 +2,7 @@ package com.ms.et.services;
 
 import com.ms.et.domain.Privilege;
 import com.ms.et.repositories.PrivilegeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.List;
 @Service
 public class PrivilegeServiceImpl implements PrivilegeService {
 
+    @Autowired
     private PrivilegeRepository privilegeRepository;
 
     @Override
