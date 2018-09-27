@@ -12,7 +12,7 @@ public class ProjectToProjectForm implements Converter<Project, ProjectForm> {
         ProjectForm projectForm = new ProjectForm();
         projectForm.setId(source.getId());
         projectForm.setName(source.getName());
-        projectForm.setCompanyId(source.getCompany().getId());
+        projectForm.setCompany(source.getCompany());
         return projectForm;
     }
 }

@@ -1,9 +1,11 @@
 package com.ms.et.commands;
 
+import com.ms.et.domain.Company;
+
 public class ProjectForm {
     private Long id;
     private String name;
-    private Long companyId;
+    private Company company;
 
     public Long getId() {
         return id;
@@ -21,11 +23,11 @@ public class ProjectForm {
         this.name = name;
     }
 
-    public Long getCompanyId() {
-        return companyId;
+    public Company getCompany() {
+        return company;
     }
 
-    public void setCompanyId(Long companyId) {
-        this.companyId = companyId;
+    public void setCompany(Company company) {
+        this.company = company;
     }
 }
