@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <title>Main menu</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -8,6 +8,9 @@
           th:href="@{/webjars/bootstrap/3.3.5/css/bootstrap.min.css}"
           rel="stylesheet" media="screen"/>
 
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
     <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
             th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
 
@@ -15,26 +18,8 @@
           th:href="@{css/spring-core.css}" rel="stylesheet" media="screen"/>
 </head>
 <body>
-<h2>Main menu</h2>
-<div class="container">
-    <div class="row">
-        <div class="col-sm-3">
-            <a href="/item/list">Item List</a>
-        </div>
-        <div class="col-sm-3">
-            <a href="/user/list">User List</a>
-        </div>
-        <div class="col-sm-3">
-            <a href="/project/list">Projects List</a>
-        </div>
-        <div class="col-sm-3">
-            <a href="/company/list">Companies List</a>
-        </div>
-        <div class="col-sm-3">
-            <a href="/role/list">Role List</a>
-        </div>
-    </div>
-</div>
+<header th:insert="fragments/general.html :: header"> </header>
 
+<h2>Home screen</h2>
 </body>
 </html>

@@ -15,6 +15,9 @@ public class Project {
     private Company company;
     @OneToMany(mappedBy = "project")
     private Set<Item> items;
+    @ManyToOne
+    @JoinColumn(name = "users_id")
+    private User user;
 
     public Long getId() {
         return id;
@@ -46,5 +49,13 @@ public class Project {
 
     public void setItems(Set<Item> items) {
         this.items = items;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

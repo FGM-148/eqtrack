@@ -12,6 +12,8 @@ public class User {
     private Long id;
     @Column(unique = true)
     private String name;
+    private String firstName;
+    private String lastName;
     private String password;
     @Column(unique = true)
     private String email;
@@ -41,6 +43,22 @@ public class User {
 
     public void setRoles(List<Role> _roles) { roles = _roles; }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     @ManyToMany
     @JoinTable(
         name = "users_roles",
@@ -59,4 +77,19 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.DETACH)
     private Set<Item> items;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.DETACH)
+    private Set<Project> projects;
+
+    public Set<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(Set<Project> projects) {
+        this.projects = projects;
+    }
+
+    @Override
+    public String toString() {
+        return firstName + " " + lastName;
+    }
 }

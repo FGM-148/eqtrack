@@ -47,43 +47,124 @@ public class InitDataLoader implements ApplicationListener<ContextRefreshedEvent
         Privilege readPrivilege = createPrivilegeIfNotFound("READ_ITEM_PRIVILEGE");
         Privilege writePrivilege = createPrivilegeIfNotFound("WRITE_ITEM_PRIVILEGE");
         Privilege editPrivilege = createPrivilegeIfNotFound("EDIT_ITEM_PRIVILEGE");
-        Privilege sadminPrivilege = createPrivilegeIfNotFound("SUPERADMIN_PRIVILEGE");
+
+        List<String> allPrivsInStirngList = Arrays.asList(
+                "READ_ITEM", "WRITE_ITEM", "ITEM_LIST",
+                "READ_COMPANY", "WRITE_COMPANY",
+                "READ_OWN_PROJECT", "WRITE_OWN_PROJECT",
+                "READ_ROLE", "WRITE_ROLE",
+                "READ_PRIVILEGE", "WRITE_PRIVILEGE",
+                "READ_USER", "WRITE_USERS", "USER_LIST",
+                "ITEM_LIST_BY_ADDRESS",
+                "ITEM_LIST_BY_PROJECT",
+                "ITEM_LIST_BY_COMPANY",
+                "ITEM_LIST_BY_USER",
+                "PROJECT_LIST_BY_OWNER",
+                "ITEM_LIST_BY_OWNER",
+                "ASSIGN_ITEM_TO_USER",
+                "ASSIGN_ITEM_TO_PROJECT",
+                "ASSIGN_ITEM_TO_STORAGE",
+                "ASSIGN_PROJECT_AS_OWN",
+                "ASSIGN_ITEM_TO_ME");
+
+        List<String> adminPrivsInStringList = Arrays.asList(
+                "READ_ROLE", "WRITE_ROLE",
+                "READ_PRIVILEGE", "WRITE_PRIVILEGE",
+                "READ_USER", "WRITE_USERS", "USER_LIST");
+
+        List<String> ictPrivsInStirngList = Arrays.asList(
+                "READ_ITEM", "WRITE_ITEM", "ITEM_LIST",
+                "READ_COMPANY", "WRITE_COMPANY",
+                "READ_USER",
+                "ITEM_LIST_BY_ADDRESS",
+                "ITEM_LIST_BY_PROJECT",
+                "ITEM_LIST_BY_COMPANY",
+                "ITEM_LIST_BY_USER",
+                "ASSIGN_ITEM_TO_USER",
+                "ASSIGN_ITEM_TO_STORAGE");
+
+        List<String> managerPrivsInStringList = Arrays.asList(
+                "READ_ITEM", "ITEM_LIST",
+                "READ_COMPANY", "WRITE_COMPANY",
+                "READ_OWN_PROJECT", "WRITE_OWN_PROJECT",
+                "READ_USER",
+                "ITEM_LIST_BY_USER",
+                "PROJECT_LIST_BY_OWNER",
+                "ITEM_LIST_BY_OWNER",
+                "ASSIGN_ITEM_TO_PROJECT",
+                "ASSIGN_PROJECT_AS_OWN",
+                "ASSIGN_ITEM_TO_ME");
+
+        List<String> userPrivsInStirngList = Arrays.asList(
+                "READ_ITEM", "ITEM_LIST",
+                "READ_USER",
+                "ITEM_LIST_BY_OWNER",
+                "ASSIGN_ITEM_TO_ME");
+
+        createPriviligesIfNotFoundFromList(allPrivsInStirngList);
 
         // == create initial roles
         List<Privilege> adminPrivileges = Arrays.asList(readPrivilege, writePrivilege, editPrivilege);
-        List<Privilege> sadminPrivileges = Arrays.asList(sadminPrivilege, readPrivilege, writePrivilege, editPrivilege);
-        createRoleIfNotFound("ROLE_ADMIN", adminPrivileges);
         List<Privilege> rolePrivileges = Arrays.asList(readPrivilege);
-        createRoleIfNotFound("ROLE_USER", rolePrivileges);
-        createRoleIfNotFound("ROLE_SADMIN", sadminPrivileges);
 
-        Role adminRole = roleRepository.findByName("ROLE_ADMIN");
+        createRoleIfNotFound("ADMINISTRATOR", adminPrivsInStringList);
+        createRoleIfNotFound("PROJECT MANAGER", managerPrivsInStringList);
+        createRoleIfNotFound("USER", userPrivsInStirngList);
+        createRoleIfNotFound("TECHNICAL SPECIALIST", ictPrivsInStirngList);
+
+        Role managerRole = roleRepository.findByName("PROJECT MANAGER");
+        User manager = new User();
+        manager.setName("b");
+        manager.setEmail("manager@test.com");
+        manager.setFirstName("Jan");
+        manager.setLastName("Kowalski");
+        manager.setPassword(passwordEncoder.encode("a"));
+        manager.setRoles(Arrays.asList(managerRole));
+        manager.setEnabled(true);
+        createUserIfNotFound(manager);
+
+        Role adminRole = roleRepository.findByName("ADMINISTRATOR");
         User user = new User();
         user.setName("admin");
+        user.setFirstName("Adam");
+        user.setLastName("Nowak");
         user.setEmail("admin@test.com");
         user.setPassword(passwordEncoder.encode("ti2018"));
         user.setRoles(Arrays.asList(adminRole));
         user.setEnabled(true);
         createUserIfNotFound(user);
 
-        Role basicRole = roleRepository.findByName("ROLE_USER");
+        Role basicRole = roleRepository.findByName("USER");
         User basicUser = new User();
-        basicUser.setName("user");
+        basicUser.setName("c");
+        basicUser.setFirstName("Marek");
+        basicUser.setLastName("Marecki");
         basicUser.setEmail("user@test.com");
-        basicUser.setPassword(passwordEncoder.encode("user"));
+        basicUser.setPassword(passwordEncoder.encode("a"));
         basicUser.setRoles(Arrays.asList(basicRole));
         basicUser.setEnabled(true);
         createUserIfNotFound(basicUser);
 
-        Role sadminRole = roleRepository.findByName("ROLE_SADMIN");
-        User sadmin = new User();
-        sadmin.setName("sadmin");
-        sadmin.setEmail("sadmin@test.com");
-        sadmin.setPassword(passwordEncoder.encode("a"));
-        sadmin.setRoles(Arrays.asList(sadminRole));
+        Role ictRole = roleRepository.findByName("TECHNICAL SPECIALIST");
+        User ictUser = new User();
+        ictUser.setName("d");
+        ictUser.setFirstName("Frodo");
+        ictUser.setLastName("Baggins");
+        ictUser.setEmail("ict@test.com");
+        ictUser.setPassword(passwordEncoder.encode("a"));
+        ictUser.setRoles(Arrays.asList(ictRole));
+        ictUser.setEnabled(true);
+        createUserIfNotFound(ictUser);
 
-        sadmin.setEnabled(true);
-        createUserIfNotFound(sadmin);
+        User twoRoles = new User();
+        twoRoles.setName("dwierole");
+        twoRoles.setFirstName("Rafał");
+        twoRoles.setLastName("Nafalski");
+        twoRoles.setEmail("rafal@test.com");
+        twoRoles.setPassword(passwordEncoder.encode("a"));
+        twoRoles.setRoles(Arrays.asList(adminRole, ictRole));
+        twoRoles.setEnabled(true);
+        createUserIfNotFound(twoRoles);
 
         alreadySetup = true;
     }
@@ -107,15 +188,33 @@ public class InitDataLoader implements ApplicationListener<ContextRefreshedEvent
     }
 
     @Transactional
-    private Role createRoleIfNotFound(String name, List<Privilege> privileges) {
+    private Role createRoleIfNotFound(String name, List<String> privilegesInStrings) {
         Role role = roleRepository.findByName(name);
+        List<Privilege> privileges = new ArrayList<>();
         if (role == null) {
             role = new Role();
             role.setName(name);
+            for (String p : privilegesInStrings) {
+                Privilege priv = privilegeRepository.findByName(p);
+                privileges.add(priv);
+            }
             role.setPrivileges(privileges);
             roleRepository.save(role);
         }
         return role;
+    }
+
+    @Transactional
+    private void createPriviligesIfNotFoundFromList(List<String> pList) {
+        List<Privilege> privs = new ArrayList<>();
+        for (String pName : pList) {
+            if (privilegeRepository.findByName(pName)==null) {
+                Privilege p = new Privilege();
+                p.setName(pName);
+                privs.add(p);
+            }
+        }
+        privilegeRepository.saveAll(privs);
     }
 
 }

@@ -16,6 +16,8 @@ public class UserToUserForm implements Converter<User, UserForm> {
         UserForm userForm = new UserForm();
         userForm.setId(user.getId());
         userForm.setName(user.getName());
+        userForm.setFirstName(user.getFirstName());
+        userForm.setLastName(user.getLastName());
         userForm.setEmail(user.getEmail());
         userForm.setEnabled(user.isEnabled());
         List<String> roles = new ArrayList<>();

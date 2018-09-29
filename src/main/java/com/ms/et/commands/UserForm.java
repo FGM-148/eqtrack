@@ -10,6 +10,8 @@ import java.util.List;
 public class UserForm {
     private Long id;
     private String name;
+    private String firstName;
+    private String lastName;
     private String password;
     private String email;
     private boolean enabled;
@@ -17,10 +19,10 @@ public class UserForm {
 
     private RoleService roleService;
 
-    @Autowired
-    public void setRoleService(RoleService _roleService) {
-        roleService = _roleService;
-    }
+//    @Autowired
+//    public void setRoleService(RoleService _roleService) {
+//        roleService = _roleService;
+//    }
 
     public Long getId() {
         return id;
@@ -70,12 +72,28 @@ public class UserForm {
         roles = _roles;
     }
 
-    public List<String> getAvailableRoles() {
-        List<Role> allRoles = roleService.listAll();
-        List<String> result = new ArrayList<>();
-        for (Role role : allRoles) {
-            result.add(role.getName());
-        }
-        return result;
+    public String getFirstName() {
+        return firstName;
     }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+//
+//    public List<String> getAvailableRoles() {
+//        List<Role> allRoles = roleService.listAll();
+//        List<String> result = new ArrayList<>();
+//        for (Role role : allRoles) {
+//            result.add(role.getName());
+//        }
+//        return result;
+//    }
 }

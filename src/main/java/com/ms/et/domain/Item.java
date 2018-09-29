@@ -79,9 +79,9 @@ public class Item {
         internalNumber = _internalNumber;
     }
 
-    public boolean isDisposed() { return disposed; }
+    public boolean isInStorage() { return disposed; }
 
-    public void setDisposed(boolean _disposed) { disposed = _disposed; }
+    public void setInStorage(boolean _disposed) { disposed = _disposed; }
 
     public Company getCompany() {
         return company;
