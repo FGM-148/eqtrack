@@ -80,12 +80,10 @@ public class InitDataLoader implements ApplicationListener<ContextRefreshedEvent
                 "ITEM_LIST_BY_PROJECT",
                 "ITEM_LIST_BY_COMPANY",
                 "ITEM_LIST_BY_USER",
-                "ASSIGN_ITEM_TO_USER",
                 "ASSIGN_ITEM_TO_STORAGE");
 
         List<String> managerPrivsInStringList = Arrays.asList(
                 "READ_ITEM", "ITEM_LIST",
-                "READ_COMPANY", "WRITE_COMPANY",
                 "READ_OWN_PROJECT", "WRITE_OWN_PROJECT",
                 "READ_USER",
                 "ITEM_LIST_BY_USER",

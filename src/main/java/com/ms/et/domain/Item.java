@@ -21,7 +21,7 @@ public class Item {
     private String name;
     private String serialNumber;
     private String internalNumber;
-    private boolean disposed;
+    private boolean inStorage;
     @ManyToOne
     @JoinColumn(name = "companies_id")
     private Company company;
@@ -79,9 +79,9 @@ public class Item {
         internalNumber = _internalNumber;
     }
 
-    public boolean isInStorage() { return disposed; }
+    public boolean isInStorage() { return inStorage; }
 
-    public void setInStorage(boolean _disposed) { disposed = _disposed; }
+    public void setInStorage(boolean _disposed) { inStorage = _disposed; }
 
     public Company getCompany() {
         return company;
