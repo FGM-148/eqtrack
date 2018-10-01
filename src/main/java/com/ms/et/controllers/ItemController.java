@@ -5,20 +5,30 @@ import com.ms.et.converters.ItemToItemForm;
 import com.ms.et.domain.Item;
 import com.ms.et.services.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 public class ItemController {
 
     private ItemService itemService;
     private ItemToItemForm itemToItemForm;
+
+    private static int currentPage = 1;
+    private static int pageSize = 5;
 
     @Autowired
     public void setItemToItemForm(ItemToItemForm itemToItemForm) {
@@ -31,9 +41,35 @@ public class ItemController {
     }
 
     @RequestMapping({"/item/list", "/item"})
-    public String listItems(Model model) {
+    public String listItemss(Model model) {
         model.addAttribute("items", itemService.listAll());
         return "item/list";
+    }
+
+    @RequestMapping(value = "/item/listItems", method = RequestMethod.GET)
+    public String listItems(
+            Model model,
+            @RequestParam("page") Optional<Integer> page,
+            @RequestParam("size") Optional<Integer> size) {
+        page.ifPresent(p -> currentPage = p);
+        size.ifPresent(s -> pageSize = s);
+
+        Page<Item> itemPage = itemService.listAllByPage(PageRequest.of(currentPage - 1, pageSize));
+
+
+        model.addAttribute("itemPage", itemPage);
+
+        int totalPages = itemPage.getTotalPages();
+        System.out.println("total pages = " + totalPages);
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
+        return "item/listItems";
+
     }
 
     @RequestMapping("/item/show/{id}")

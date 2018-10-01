@@ -25,17 +25,13 @@ public class Item {
     @ManyToOne
     @JoinColumn(name = "companies_id")
     private Company company;
-    @OneToMany(mappedBy = "item")
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "item")
     private Set<ItemChangeLog> itemChangeLogs;
     @ManyToOne
     @JoinColumn(name = "projects_id")
     private Project project;
 //    @Lob
 //    private byte[] mImage;
-//    private HardwareOwner mHardwareOwner;
-//    private Receipt mReceipt;
-//    private HardwareType mHardwareType;
-//    private HardwareHistory mHardwareHistory;
 
     public Long getId() { return id; }
 

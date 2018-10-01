@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Item Details</title>
+    <title>Archived Item Details</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
     <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
@@ -23,7 +23,7 @@
 
     <div class="row">
         <div class="col-sm-6">
-            <h2>Show Item</h2>
+            <h2>Show Archived Item</h2>
         </div>
     </div>
     <div class="row">
@@ -32,50 +32,50 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Item Id:</label>
                     <div class="col-sm-10">
-                        <p class="form-control-static" th:text="${item.id}">Item Id</p>
+                        <p class="form-control-static" th:text="${archive.id}">Item Id</p>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Name:</label>
                     <div class="col-sm-10">
-                        <p class="form-control-static" th:text="${item.name}">Name</p>
+                        <p class="form-control-static" th:text="${archive.name}">Name</p>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Serial Number:</label>
                     <div class="col-sm-10">
-                        <p class="form-control-static" th:text="${item.serialNumber}">Serial Number</p>
+                        <p class="form-control-static" th:text="${archive.serialNumber}">Serial Number</p>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Internal Number:</label>
                     <div class="col-sm-10">
-                        <p class="form-control-static" th:text="${item.internalNumber}">Internal Number</p>
+                        <p class="form-control-static" th:text="${archive.internalNumber}">Internal Number</p>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Source of Delivery:</label>
                     <div class="col-sm-10">
-                        <p class="form-control-static" th:text="${item.sourceOfDelivery}">Source of delivery</p>
+                        <p class="form-control-static" th:text="${archive.sourceOfDelivery}">Source of delivery</p>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Delivery Date:</label>
                     <div class="col-sm-10">
-                        <p class="form-control-static" th:text="${item.deliveryDate}">Delivery Date</p>
+                        <p class="form-control-static" th:text="${archive.deliveryDate}">Delivery Date</p>
                     </div>
                 </div>
                 <table class="table table-striped">
                     <div th:if="${not #lists.isEmpty(logs)}">
                         <h2>Item History:</h2>
-                    <tr>
-                        <th>Timestamp</th>
-                        <th>Event</th>
-                    </tr>
-                    <tr th:each="log : ${logs}">
-                        <td th:text="${log.eventDate}"></td>
-                        <td th:text="${log.event}"></td>
-                    </tr>
+                        <tr>
+                            <th>Timestamp</th>
+                            <th>Event</th>
+                        </tr>
+                        <tr th:each="log : ${logs}">
+                            <td th:text="${log.eventDate}"></td>
+                            <td th:text="${log.event}"></td>
+                        </tr>
                     </div>
                 </table>
             </form>
@@ -83,7 +83,7 @@
     </div>
     <div class="row">
         <div class="col-sm-3">
-            <a href="/item/list">Return to Item List</a>
+            <a href="/archive/list">Return to Item List</a>
         </div>
     </div>
 </div>

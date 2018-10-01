@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Equipment List</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.3.5/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen"/>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
+            th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+
+    <link href="../../static/css/spring-core.css"
+          th:href="@{css/spring-core.css}" rel="stylesheet" media="screen"/>
+</head>
+<body>
+<header th:insert="fragments/general.html :: header"> </header>
+<div class="container">
+    <div th:if="${not #lists.isEmpty(itemPage)}">
+        <h2>Equipment List:</h2>
+        <table class="table table-striped">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Serial Number</th>
+                <th>Internal Number</th>
+                <th>Source of Delivery</th>
+                <th>Delivery Date</th>
+                <th>View</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            <tr th:each="item, iStat : ${itemPage.content}"
+                th:style="${iStat.odd}? 'font-weight: bold;'"
+                th:alt-title="${iStat.even}? 'even' : 'odd'">
+                <td th:text="${item.id}"></td>
+                <td th:text="${item.name}"></td>
+                <td th:text="${item.serialNumber}"></td>
+                <td th:text="${item.internalNumber}"></td>
+                <td th:text="${item.sourceOfDelivery}"></td>
+                <!--<td th:text="${item.sourceOfDelivery.city}"></td>-->
+                <!--<td th:text="${item.sourceOfDelivery.postalCode}"></td>-->
+                <!--<td th:text="${item.sourceOfDelivery.street}"></td>-->
+                <!--<td th:text="${item.sourceOfDelivery.number}"></td>-->
+                <td th:text="${item.deliveryDate}"></td>
+                <td><a th:href="${'/item/show/' + item.id}">View</a> </td>
+                <td><a th:href="${'/item/edit/' + item.id}">Edit</a> </td>
+                <td><a th:href="${'/item/delete/' + item.id}">Delete</a> </td>
+            </tr>
+        </table>
+        <div class="row">
+            <div th:if="${itemPage.totalPages > 0}" class="pagination"
+                 th:each="pageNumber : ${pageNumbers}">
+                <a th:href="@{/item/listItems(size=${itemPage.size}, page=${pageNumber})}"
+                   th:text=${pageNumber}
+                   th:class="${pageNumber==itemPage.number + 1} ? active"></a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <a href="/item/new">New Item</a>
+        </div>
+        <div class="col-sm-3">
+            <a href="/index">Main Menu</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,11 +1,8 @@
 package com.ms.et.initdata;
 
-import com.ms.et.domain.Privilege;
-import com.ms.et.domain.Role;
-import com.ms.et.domain.User;
-import com.ms.et.repositories.PrivilegeRepository;
-import com.ms.et.repositories.RoleRepository;
-import com.ms.et.repositories.UserRepository;
+import com.ms.et.domain.*;
+import com.ms.et.repositories.*;
+import org.kohsuke.randname.RandomNameGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Lazy;
@@ -31,6 +28,12 @@ public class InitDataLoader implements ApplicationListener<ContextRefreshedEvent
 
     @Autowired
     private PrivilegeRepository privilegeRepository;
+
+    @Autowired
+    private ItemRepository itemRepository;
+
+    @Autowired
+    private AddressRepository addressRepository;
 
     @Autowired
     @Lazy
@@ -163,6 +166,7 @@ public class InitDataLoader implements ApplicationListener<ContextRefreshedEvent
         twoRoles.setRoles(Arrays.asList(adminRole, ictRole));
         twoRoles.setEnabled(true);
         createUserIfNotFound(twoRoles);
+        createItems();
 
         alreadySetup = true;
     }
@@ -213,6 +217,28 @@ public class InitDataLoader implements ApplicationListener<ContextRefreshedEvent
             }
         }
         privilegeRepository.saveAll(privs);
+    }
+
+    @Transactional
+    private void createItems() {
+        RandomNameGenerator rnd = new RandomNameGenerator(0);
+
+        for (int i = 0; i < 100; i++) {
+            Item item = new Item();
+            item.setInternalNumber("F1000" + i);
+            item.setName(rnd.next());
+            item.setSerialNumber("S/N 23847" + rnd.next());
+            Address address = new Address();
+            address.setStreet(rnd.next());
+            address.setCity(rnd.next());
+            address.setCountry("Poland");
+            address.setNumber(new Integer(i).toString());
+            address.setPostalCode(22 + i);
+            addressRepository.save(address);
+            item.setSourceOfDelivery(address);
+            item.setInStorage(true);
+            itemRepository.save(item);
+        }
     }
 
 }

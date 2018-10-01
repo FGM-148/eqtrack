@@ -15,6 +15,9 @@ public class ItemChangeLog {
     @ManyToOne
     @JoinColumn(name = "items_id")
     private Item item;
+    @ManyToOne
+    @JoinColumn(name = "archives_id")
+    private Archive archive;
 
     public Long getId() {
         return id;
