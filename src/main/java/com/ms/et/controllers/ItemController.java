@@ -40,6 +40,22 @@ public class ItemController {
         this.itemService = itemService;
     }
 
+    @RequestMapping(value = "/item/search", method = RequestMethod.GET)
+    public String search(@RequestParam(value = "search", required = false) String q, Model model) {
+        List<Item> searchResults = null;
+        try {
+            searchResults = itemService.fuzzySearchAll(q);
+
+        } catch (Exception ex) {
+            // here you should handle unexpected errors
+            // ...
+            // throw ex;
+        }
+        model.addAttribute("search", searchResults);
+        return "item/search";
+
+    }
+
     @RequestMapping({"/item/list", "/item"})
     public String listItemss(Model model) {
         model.addAttribute("items", itemService.listAll());

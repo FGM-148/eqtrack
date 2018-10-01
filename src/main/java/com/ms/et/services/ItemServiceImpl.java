@@ -8,9 +8,13 @@ import com.ms.et.domain.ItemChangeLog;
 import com.ms.et.repositories.ArchiveRepository;
 import com.ms.et.repositories.ItemChangeLogRepository;
 import com.ms.et.repositories.ItemRepository;
+import com.ms.et.services.specification.ItemSpecification;
+import com.ms.et.services.specification.SearchOperation;
+import com.ms.et.services.specification.SpecSearchCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -106,5 +110,33 @@ public class ItemServiceImpl implements ItemService{
     @Override
     public Page<Item> listAllByPage(Pageable pageable) {
             return itemRepository.findAll(pageable);
+    }
+
+    @Override
+    public List<Item> fuzzySearchAll(String q) {
+        ItemSpecification spec1 =
+                new ItemSpecification(new SpecSearchCriteria("name", SearchOperation.LIKE, q));
+        ItemSpecification spec2 =
+                new ItemSpecification(new SpecSearchCriteria("serialNumber", SearchOperation.LIKE, q));
+        ItemSpecification spec3 =
+                new ItemSpecification(new SpecSearchCriteria("internalNumber", SearchOperation.LIKE, q));
+
+        List<Item> results = itemRepository.findAll(Specifications.where(spec1).or(spec2).or(spec3));
+        return results;
+    }
+
+    @Override
+    public List<Item> fuzzySearchInStorage(String q, boolean inStorage) {
+        ItemSpecification spec1 =
+                new ItemSpecification(new SpecSearchCriteria("name", SearchOperation.LIKE, q));
+        ItemSpecification spec2 =
+                new ItemSpecification(new SpecSearchCriteria("serialNumber", SearchOperation.LIKE, q));
+        ItemSpecification spec3 =
+                new ItemSpecification(new SpecSearchCriteria("internalNumber", SearchOperation.LIKE, q));
+        ItemSpecification spec4 =
+                new ItemSpecification(new SpecSearchCriteria("inStorage", SearchOperation.EQUALITY, inStorage));
+
+        List<Item> results = itemRepository.findAll(Specifications.where(spec1).or(spec2).or(spec3).and(spec4));
+        return results;
     }
 }

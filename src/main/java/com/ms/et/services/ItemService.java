@@ -15,4 +15,6 @@ public interface ItemService {
     void delete(Long id);
     Item saveOrUpdateItemForm(ItemForm itemForm);
     Page<Item> listAllByPage(Pageable pageable);
+    List<Item> fuzzySearchAll(String q);
+    List<Item> fuzzySearchInStorage(String q, boolean inStorage);
 }
