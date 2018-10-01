@@ -10,4 +10,5 @@ public interface UserService {
     User saveOrUpdate(User user);
     void delete(Long id);
     User saveOrUpdateUserForm(UserForm userForm);
+    List<User> fuzzySearch(String q);
 }

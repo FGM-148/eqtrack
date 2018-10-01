@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="headerfiles">
     <meta charset="UTF-8" />
     <link th:href="@{/css/styles.css}" rel="stylesheet">
@@ -64,6 +64,9 @@
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="/user/list">User List</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/search">User Search</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/project/list">Projects List</a>

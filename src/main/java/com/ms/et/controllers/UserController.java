@@ -12,8 +12,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -34,6 +36,22 @@ public class UserController {
     @Autowired
     public void setRoleService(RoleService _roleService) {
         roleService = _roleService;
+    }
+
+    @RequestMapping(value = "/user/search", method = RequestMethod.GET)
+    public String search(@RequestParam(value = "search", required = false) String q, Model model) {
+        List<User> searchResults = null;
+        try {
+            searchResults = userService.fuzzySearch(q);
+
+        } catch (Exception ex) {
+            // here you should handle unexpected errors
+            // ...
+            // throw ex;
+        }
+        model.addAttribute("search", searchResults);
+        return "user/search";
+
     }
 
     @RequestMapping({"/user/list", "user"})
