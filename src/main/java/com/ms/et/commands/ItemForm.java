@@ -1,5 +1,7 @@
 package com.ms.et.commands;
 
+import com.ms.et.domain.Company;
+
 import java.sql.Date;
 
 public class ItemForm {
@@ -8,6 +10,7 @@ public class ItemForm {
     private String mName;
     private String mSerialNumber;
     private String mInternalNumber;
+    private Company company;
     private AddressForm sourceOfDelivery;
 
     public Long getId() {
@@ -54,5 +57,13 @@ public class ItemForm {
 
     public void setSourceOfDelivery(AddressForm sourceOfDelivery) {
         this.sourceOfDelivery = sourceOfDelivery;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
 }

@@ -95,6 +95,14 @@ public class Item {
         this.itemChangeLogs = itemChangeLogs;
     }
 
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
     //    public byte[] getImage() {
 //        return mImage;
 //    }

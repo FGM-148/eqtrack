@@ -68,7 +68,7 @@ public class User {
           name = "role_id", referencedColumnName = "id"))
     private List<Role> roles;
 
-    private Set<Item> getItems() {
+    public Set<Item> getItems() {
         return items;
     }
 

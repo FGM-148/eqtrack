@@ -31,8 +31,6 @@
                 <th>Source of Delivery</th>
                 <th>Delivery Date</th>
                 <th>View</th>
-                <th>Edit</th>
-                <th>Delete</th>
             </tr>
             <tr th:each="archive : ${archives}">
                 <td th:text="${archive.id}"></td>
@@ -42,18 +40,8 @@
                 <td th:text="${archive.sourceOfDelivery}"></td>
                 <td th:text="${archive.deliveryDate}"></td>
                 <td><a th:href="${'/archive/show/' + archive.id}">View</a> </td>
-                <td><a th:href="${'/archive/edit/' + archive.id}">Edit</a> </td>
-                <td><a th:href="${'/archive/delete/' + archive.id}">Delete</a> </td>
             </tr>
         </table>
-    </div>
-    <div class="row">
-        <div class="col-sm-3">
-            <a href="/archive/new">New archive</a>
-        </div>
-        <div class="col-sm-3">
-            <a href="/index">Main Menu</a>
-        </div>
     </div>
 </div>
 

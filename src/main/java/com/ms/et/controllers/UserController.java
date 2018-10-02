@@ -5,6 +5,7 @@ import com.ms.et.converters.UserToUserForm;
 import com.ms.et.domain.User;
 import com.ms.et.services.RoleService;
 import com.ms.et.services.UserService;
+import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -88,8 +89,12 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return "user/userform";
         }
-
-        User savedUser = userService.saveOrUpdateUserForm(userForm);
+        try {
+            User savedUser = userService.saveOrUpdateUserForm(userForm);
+        }
+        catch (Exception e) {
+            return "redirect:/exception";
+        }
 //        return "redirect:/user/show/" + savedUser.getId();
         return "redirect:/user/list";
     }

@@ -2,6 +2,9 @@ package com.ms.et.initdata;
 
 import com.ms.et.domain.*;
 import com.ms.et.repositories.*;
+import com.ms.et.services.CompanyService;
+import com.ms.et.services.ItemService;
+import com.ms.et.services.ProjectService;
 import org.kohsuke.randname.RandomNameGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -11,9 +14,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 @Component
 public class InitDataLoader implements ApplicationListener<ContextRefreshedEvent> {
@@ -34,6 +39,15 @@ public class InitDataLoader implements ApplicationListener<ContextRefreshedEvent
 
     @Autowired
     private AddressRepository addressRepository;
+
+    @Autowired
+    private ItemService itemService;
+
+    @Autowired
+    private CompanyService companyService;
+
+    @Autowired
+    private ProjectService projectService;
 
     @Autowired
     @Lazy
@@ -166,6 +180,8 @@ public class InitDataLoader implements ApplicationListener<ContextRefreshedEvent
         twoRoles.setRoles(Arrays.asList(adminRole, ictRole));
         twoRoles.setEnabled(true);
         createUserIfNotFound(twoRoles);
+        createCompany();
+        createProjects(manager);
         createItems();
 
         alreadySetup = true;
@@ -220,6 +236,21 @@ public class InitDataLoader implements ApplicationListener<ContextRefreshedEvent
     }
 
     @Transactional
+    private Address createAddress() {
+        RandomNameGenerator rnd = new RandomNameGenerator(323);
+        Address address = new Address();
+        address.setStreet(rnd.next());
+        address.setCity(rnd.next());
+        address.setCountry("Poland");
+        Random r = new Random();
+        address.setNumber(new Integer(r.nextInt((1000 - 1) + 1) + 1).toString());
+        address.setPostalCode(r.nextInt((1000 - 1) + 1) + 1);
+        addressRepository.save(address);
+        return address;
+
+    }
+
+    @Transactional
     private void createItems() {
         RandomNameGenerator rnd = new RandomNameGenerator(0);
 
@@ -228,16 +259,46 @@ public class InitDataLoader implements ApplicationListener<ContextRefreshedEvent
             item.setInternalNumber("F1000" + i);
             item.setName(rnd.next());
             item.setSerialNumber("S/N 23847" + rnd.next());
-            Address address = new Address();
-            address.setStreet(rnd.next());
-            address.setCity(rnd.next());
-            address.setCountry("Poland");
-            address.setNumber(new Integer(i).toString());
-            address.setPostalCode(22 + i);
-            addressRepository.save(address);
+            Address address = createAddress();
             item.setSourceOfDelivery(address);
-            item.setInStorage(true);
-            itemRepository.save(item);
+            item.setDeliveryDate(new Date(30, 30, 2000));
+            if (i%2 == 0) {
+                item.setInStorage(true);
+            }
+            else {
+                item.setInStorage(false);
+                item.setProject(projectService.getById(new Long (1)));
+            }
+            itemService.saveOrUpdate(item);
+        }
+    }
+
+    @Transactional
+    private void createCompany() {
+        RandomNameGenerator rnd = new RandomNameGenerator(11);
+        Company company = new Company();
+        company.setAddress(createAddress());
+        company.setName("teito");
+        companyService.saveOrUpdate(company);
+
+        for (int i =0; i<10; i++) {
+            Company companyr = new Company();
+            companyr.setAddress(createAddress());
+            companyr.setName(rnd.next());
+            companyService.saveOrUpdate(companyr);
+        }
+
+    }
+
+    @Transactional
+    private void createProjects(User user) {
+        RandomNameGenerator rnd = new RandomNameGenerator(45);
+        for (int i = 0; i < 5; i++) {
+            Project project = new Project();
+            project.setName(rnd.next());
+            project.setCompany(companyService.getById(new Long(i)));
+            project.setUser(user);
+            projectService.saveOrUpdate(project);
         }
     }
 

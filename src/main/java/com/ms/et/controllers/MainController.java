@@ -26,6 +26,9 @@ public class MainController {
     @RequestMapping("/accessDenied")
     public String accessDenied() { return "accessDenied"; }
 
+    @RequestMapping("/exception")
+    public String excep() { return "exception"; }
+
     @RequestMapping(value="/logout", method = RequestMethod.GET)
     public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

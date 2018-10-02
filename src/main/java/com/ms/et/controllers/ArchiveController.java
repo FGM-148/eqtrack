@@ -24,10 +24,10 @@ public class ArchiveController {
         return "archive/list";
     }
 
-    @RequestMapping("/Archive/show/{id}")
+    @RequestMapping("/archive/show/{id}")
     public String getArchive(@PathVariable String id, Model model) {
         Archive archive = archiveService.getById(Long.valueOf(id));
-        model.addAttribute("Archive", archive);
+        model.addAttribute("archive", archive);
         model.addAttribute("logs", archive.getArchivedChangeLogs());
         return "archive/show";
     }

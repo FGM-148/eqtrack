@@ -20,6 +20,7 @@
 </head>
 <body>
 <header th:insert="fragments/general.html :: header"> </header>
+<h1 class="text-center">Search User</h1>
 <form action="#" th:action="@{/user/search}" th:object="${search}">
     <!--<label for="search_input">Search:</label> -->
     <input name="search" id="search">

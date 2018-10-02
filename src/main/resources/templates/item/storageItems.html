@@ -57,19 +57,19 @@
         <div class="row">
             <div th:if="${itemPage.totalPages > 0}" class="pagination"
                  th:each="pageNumber : ${pageNumbers}">
-                <a th:href="@{/item/listItems(size=${itemPage.size}, page=${pageNumber})}"
+                <a th:href="@{/item/storageItems(size=${itemPage.size}, page=${pageNumber})}"
                    th:text=${pageNumber}
                    th:class="${pageNumber==itemPage.number + 1} ? active"></a>
             </div>
         </div>
     </div>
     <!--<div class="row">-->
-        <!--<div class="col-sm-3">-->
-            <!--<a href="/item/new">New Item</a>-->
-        <!--</div>-->
-        <!--<div class="col-sm-3">-->
-            <!--<a href="/index">Main Menu</a>-->
-        <!--</div>-->
+    <!--<div class="col-sm-3">-->
+    <!--<a href="/item/new">New Item</a>-->
+    <!--</div>-->
+    <!--<div class="col-sm-3">-->
+    <!--<a href="/index">Main Menu</a>-->
+    <!--</div>-->
     <!--</div>-->
 </div>
 

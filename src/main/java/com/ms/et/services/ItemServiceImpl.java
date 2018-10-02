@@ -1,10 +1,9 @@
 package com.ms.et.services;
 
+import com.ms.et.commands.ChooseProjectForm;
 import com.ms.et.commands.ItemForm;
 import com.ms.et.converters.ItemFormToItem;
-import com.ms.et.domain.Archive;
-import com.ms.et.domain.Item;
-import com.ms.et.domain.ItemChangeLog;
+import com.ms.et.domain.*;
 import com.ms.et.repositories.ArchiveRepository;
 import com.ms.et.repositories.ItemChangeLogRepository;
 import com.ms.et.repositories.ItemRepository;
@@ -14,6 +13,7 @@ import com.ms.et.services.specification.SpecSearchCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 
@@ -113,13 +113,20 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
+    public Page<Item> listAllStorageByPage(Pageable pageable) {
+        ItemSpecification spec4 =
+                new ItemSpecification(new SpecSearchCriteria("inStorage", SearchOperation.EQUALITY, true));
+        return  itemRepository.findAll(Specification.where(spec4), pageable);
+    }
+
+    @Override
     public List<Item> fuzzySearchAll(String q) {
         ItemSpecification spec1 =
-                new ItemSpecification(new SpecSearchCriteria("name", SearchOperation.LIKE, q));
+                new ItemSpecification(new SpecSearchCriteria("name", SearchOperation.CONTAINS, q));
         ItemSpecification spec2 =
-                new ItemSpecification(new SpecSearchCriteria("serialNumber", SearchOperation.LIKE, q));
+                new ItemSpecification(new SpecSearchCriteria("serialNumber", SearchOperation.CONTAINS, q));
         ItemSpecification spec3 =
-                new ItemSpecification(new SpecSearchCriteria("internalNumber", SearchOperation.LIKE, q));
+                new ItemSpecification(new SpecSearchCriteria("internalNumber", SearchOperation.CONTAINS, q));
 
         List<Item> results = itemRepository.findAll(Specifications.where(spec1).or(spec2).or(spec3));
         return results;
@@ -128,15 +135,62 @@ public class ItemServiceImpl implements ItemService{
     @Override
     public List<Item> fuzzySearchInStorage(String q, boolean inStorage) {
         ItemSpecification spec1 =
-                new ItemSpecification(new SpecSearchCriteria("name", SearchOperation.LIKE, q));
+                new ItemSpecification(new SpecSearchCriteria("name", SearchOperation.CONTAINS, q));
         ItemSpecification spec2 =
-                new ItemSpecification(new SpecSearchCriteria("serialNumber", SearchOperation.LIKE, q));
+                new ItemSpecification(new SpecSearchCriteria("serialNumber", SearchOperation.CONTAINS, q));
         ItemSpecification spec3 =
-                new ItemSpecification(new SpecSearchCriteria("internalNumber", SearchOperation.LIKE, q));
+                new ItemSpecification(new SpecSearchCriteria("internalNumber", SearchOperation.CONTAINS, q));
         ItemSpecification spec4 =
                 new ItemSpecification(new SpecSearchCriteria("inStorage", SearchOperation.EQUALITY, inStorage));
 
         List<Item> results = itemRepository.findAll(Specifications.where(spec1).or(spec2).or(spec3).and(spec4));
         return results;
+    }
+
+    @Override
+    public void assignItemToUser(Item item, User user) {
+        item.setUser(user);
+        item.setInStorage(false);
+        ItemChangeLog itemChangeLog = new ItemChangeLog();
+        itemChangeLog.setEventDate(new java.util.Date(System.currentTimeMillis()));
+        itemChangeLog.setItem(item);
+        itemChangeLog.setEvent("Assigned to: " + user.toString());
+        itemChangeLogRepository.save(itemChangeLog);
+        itemRepository.save(item);
+    }
+
+    @Override
+    public void returnToIct(Item item) {
+        item.setUser(null);
+        item.setProject(null);
+        item.setInStorage(true);
+        ItemChangeLog itemChangeLog = new ItemChangeLog();
+        itemChangeLog.setEventDate(new java.util.Date(System.currentTimeMillis()));
+        itemChangeLog.setItem(item);
+        itemChangeLog.setEvent("Returned to storage");
+        itemChangeLogRepository.save(itemChangeLog);
+        itemRepository.save(item);
+    }
+
+    @Override
+    public void assignItemToProject(ChooseProjectForm chooseProjectForm) {
+        Long itemId = chooseProjectForm.getItemId();
+        Project project = chooseProjectForm.getProject();
+        System.out.println("ChooseProject: itemId: " + itemId);
+        System.out.println("ChooseProject: project name: " + project.getName());
+        Item item = getById(itemId);
+        item.setProject(project);
+        item.setInStorage(false);
+        ItemChangeLog itemChangeLog = new ItemChangeLog();
+        itemChangeLog.setEventDate(new java.util.Date(System.currentTimeMillis()));
+        itemChangeLog.setItem(item);
+        itemChangeLog.setEvent("Assigned to project " + project.getName());
+        itemChangeLogRepository.save(itemChangeLog);
+        itemRepository.save(item);
+    }
+
+    @Override
+    public List<Item> findAllByProject(Project project) {
+        return itemRepository.findAllByProject(project);
     }
 }

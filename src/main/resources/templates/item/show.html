@@ -19,7 +19,7 @@
 </head>
 <body>
 <header th:insert="fragments/general.html :: header"> </header>
-<div class="container">
+<!--<div class="container">-->
 
     <div class="row">
         <div class="col-sm-6">
@@ -65,6 +65,23 @@
                         <p class="form-control-static" th:text="${item.deliveryDate}">Delivery Date</p>
                     </div>
                 </div>
+                <div th:switch="${isOwner}">
+                    <p th:case="'false'">
+                    <a th:href="@{${assignLink}}">Assign Item To Yourself</a>
+                    </p>
+                    <p th:case="'true'">You Own This Item</p>
+                </div>
+                <div th:if="${#authorization.expression('hasAuthority(''ASSIGN_ITEM_TO_STORAGE'')')}">
+                    <div th:switch="${inStorage}">
+                        <p th:case="'false'">
+                            <a th:href="@{${storageLink}}">Return Item To Storage</a>
+                        </p>
+                        <p th:case="'true'">Item Is In Storage</p>
+                    </div>
+                </div>
+                <div>
+                    <a th:href="@{${projectAssignLink}}">Assign To Project</a>
+                </div>
                 <table class="table table-striped">
                     <div th:if="${not #lists.isEmpty(logs)}">
                         <h2>Item History:</h2>
@@ -83,10 +100,10 @@
     </div>
     <div class="row">
         <div class="col-sm-3">
-            <a href="/item/list">Return to Item List</a>
+            <a th:href="${referer}">Return to Previous Page</a>
         </div>
     </div>
-</div>
+<!--</div>-->
 
 </body>
 </html>

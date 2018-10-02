@@ -3,6 +3,7 @@ package com.ms.et.services;
 import com.ms.et.commands.ProjectForm;
 import com.ms.et.converters.ProjectFormToProject;
 import com.ms.et.domain.Project;
+import com.ms.et.domain.User;
 import com.ms.et.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,5 +44,11 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Project saveOrUpdateProjectForm(ProjectForm projectForm) {
         return saveOrUpdate(projectFormToProject.convert(projectForm));
+    }
+
+    @Override
+    public void assignProjectToUser(Project project, User user) {
+        project.setUser(user);
+        projectRepository.save(project);
     }
 }

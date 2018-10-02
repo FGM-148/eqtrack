@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "itemChangeLogs")
-public class ItemChangeLog {
+public class ItemChangeLog implements Comparable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -49,5 +49,12 @@ public class ItemChangeLog {
 
     public void setItem(Item item) {
         this.item = item;
+    }
+
+
+    @Override
+    public int compareTo(Object o) {
+        ItemChangeLog itemChangeLog = (ItemChangeLog) o;
+        return this.eventTimestamp.compareTo(itemChangeLog.eventTimestamp);
     }
 }

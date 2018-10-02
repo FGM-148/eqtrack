@@ -20,6 +20,7 @@ public class ItemToItemForm implements Converter<Item, ItemForm> {
         itemForm.setInternalNumber(item.getInternalNumber());
         itemForm.setSerialNumber(item.getSerialNumber());
         itemForm.setName(item.getName());
+        itemForm.setCompany(item.getCompany());
         return itemForm;
     }
 }
