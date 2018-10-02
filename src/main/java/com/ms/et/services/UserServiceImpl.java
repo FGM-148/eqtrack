@@ -59,11 +59,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> fuzzySearch(String q) {
         UserSpecification spec1 =
-                new UserSpecification(new SpecSearchCriteria("firstName", SearchOperation.LIKE, q));
+                new UserSpecification(new SpecSearchCriteria("firstName", SearchOperation.CONTAINS, q));
         UserSpecification spec2 =
-                new UserSpecification(new SpecSearchCriteria("lastName", SearchOperation.LIKE, q));
+                new UserSpecification(new SpecSearchCriteria("lastName", SearchOperation.CONTAINS, q));
         UserSpecification spec3 =
-                new UserSpecification(new SpecSearchCriteria("email", SearchOperation.LIKE, q));
+                new UserSpecification(new SpecSearchCriteria("email", SearchOperation.CONTAINS, q));
 
         List<User> results = userRepository.findAll(Specifications.where(spec1).or(spec2).or(spec3));
         return results;

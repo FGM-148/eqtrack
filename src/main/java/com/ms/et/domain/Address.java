@@ -14,9 +14,9 @@ public class Address {
     private String street;
     private String number;
     private Integer postalCode;
-    @OneToMany(mappedBy = "address")
+    @OneToMany(cascade = CascadeType.DETACH, mappedBy = "address")
     private Set<Company> companys;
-    @OneToMany(mappedBy = "sourceOfDelivery")
+    @OneToMany(cascade = CascadeType.DETACH, mappedBy = "sourceOfDelivery")
     private Set<Item> items;
 
     public Integer getPostalCode() {

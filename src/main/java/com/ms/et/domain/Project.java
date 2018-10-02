@@ -13,7 +13,7 @@ public class Project {
     @ManyToOne
     @JoinColumn(name = "companies_id")
     private Company company;
-    @OneToMany(mappedBy = "project")
+    @OneToMany(cascade = CascadeType.DETACH, mappedBy = "project")
     private Set<Item> items;
     @ManyToOne
     @JoinColumn(name = "users_id")

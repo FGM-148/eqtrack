@@ -221,6 +221,7 @@ public class ItemController {
     public String edit(@PathVariable String id, Model model) {
         Item item = itemService.getById(Long.valueOf(id));
         ItemForm itemForm = itemToItemForm.convert(item);
+        model.addAttribute("allCompanys", companyService.listAll());
 
         model.addAttribute("itemForm", itemForm);
         return "item/itemform";
@@ -256,6 +257,6 @@ public class ItemController {
     @RequestMapping("item/delete/{id}")
     public String delete(@PathVariable String id) {
         itemService.delete(Long.valueOf(id));
-        return "redirect:/item/list";
+        return "redirect:/archive/list";
     }
 }

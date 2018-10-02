@@ -65,11 +65,13 @@
                         <p class="form-control-static" th:text="${item.deliveryDate}">Delivery Date</p>
                     </div>
                 </div>
-                <div th:switch="${isOwner}">
-                    <p th:case="'false'">
-                    <a th:href="@{${assignLink}}">Assign Item To Yourself</a>
-                    </p>
-                    <p th:case="'true'">You Own This Item</p>
+                <div th:if="${#authorization.expression('hasAuthority(''ASSIGN_ITEM_TO_ME'')')}">
+                    <div th:switch="${isOwner}">
+                        <p th:case="'false'">
+                        <a th:href="@{${assignLink}}">Assign Item To Yourself</a>
+                        </p>
+                        <p th:case="'true'">You Own This Item</p>
+                    </div>
                 </div>
                 <div th:if="${#authorization.expression('hasAuthority(''ASSIGN_ITEM_TO_STORAGE'')')}">
                     <div th:switch="${inStorage}">
@@ -79,7 +81,7 @@
                         <p th:case="'true'">Item Is In Storage</p>
                     </div>
                 </div>
-                <div>
+                <div th:if="${#authorization.expression('hasAuthority(''ASSIGN_ITEM_TO_PROJECT'')')}">
                     <a th:href="@{${projectAssignLink}}">Assign To Project</a>
                 </div>
                 <table class="table table-striped">

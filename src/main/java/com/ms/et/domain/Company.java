@@ -14,9 +14,9 @@ public class Company {
     @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;
-    @OneToMany(mappedBy = "company")
+    @OneToMany(cascade = CascadeType.DETACH, mappedBy = "company")
     private Set<Item> items;
-    @OneToMany(mappedBy = "company")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "company")
     private Set<Project> projects;
 
     public Long getId() {

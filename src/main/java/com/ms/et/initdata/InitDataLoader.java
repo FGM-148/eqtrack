@@ -129,7 +129,7 @@ public class InitDataLoader implements ApplicationListener<ContextRefreshedEvent
 
         Role managerRole = roleRepository.findByName("PROJECT MANAGER");
         User manager = new User();
-        manager.setName("b");
+        manager.setName("m");
         manager.setEmail("manager@test.com");
         manager.setFirstName("Jan");
         manager.setLastName("Kowalski");
@@ -140,18 +140,18 @@ public class InitDataLoader implements ApplicationListener<ContextRefreshedEvent
 
         Role adminRole = roleRepository.findByName("ADMINISTRATOR");
         User user = new User();
-        user.setName("admin");
+        user.setName("a");
         user.setFirstName("Adam");
         user.setLastName("Nowak");
         user.setEmail("admin@test.com");
-        user.setPassword(passwordEncoder.encode("ti2018"));
+        user.setPassword(passwordEncoder.encode("a"));
         user.setRoles(Arrays.asList(adminRole));
         user.setEnabled(true);
         createUserIfNotFound(user);
 
         Role basicRole = roleRepository.findByName("USER");
         User basicUser = new User();
-        basicUser.setName("c");
+        basicUser.setName("p");
         basicUser.setFirstName("Marek");
         basicUser.setLastName("Marecki");
         basicUser.setEmail("user@test.com");
@@ -162,7 +162,7 @@ public class InitDataLoader implements ApplicationListener<ContextRefreshedEvent
 
         Role ictRole = roleRepository.findByName("TECHNICAL SPECIALIST");
         User ictUser = new User();
-        ictUser.setName("d");
+        ictUser.setName("i");
         ictUser.setFirstName("Frodo");
         ictUser.setLastName("Baggins");
         ictUser.setEmail("ict@test.com");
