@@ -182,7 +182,7 @@ public class InitDataLoader implements ApplicationListener<ContextRefreshedEvent
         createUserIfNotFound(twoRoles);
         createCompany();
         createProjects(manager);
-        createItems();
+        createItems(basicUser);
 
         alreadySetup = true;
     }
@@ -251,10 +251,10 @@ public class InitDataLoader implements ApplicationListener<ContextRefreshedEvent
     }
 
     @Transactional
-    private void createItems() {
+    private void createItems(User user) {
         RandomNameGenerator rnd = new RandomNameGenerator(0);
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 1; i < 101; i++) {
             Item item = new Item();
             item.setInternalNumber("F1000" + i);
             item.setName(rnd.next());
@@ -262,11 +262,12 @@ public class InitDataLoader implements ApplicationListener<ContextRefreshedEvent
             Address address = createAddress();
             item.setSourceOfDelivery(address);
             item.setDeliveryDate(new Date(30, 30, 2000));
-            if (i%2 == 0) {
+            if (i != 68 && i != 2 && i!= 50) {
                 item.setInStorage(true);
             }
             else {
                 item.setInStorage(false);
+                item.setUser(user);
                 item.setProject(projectService.getById(new Long (1)));
             }
             itemService.saveOrUpdate(item);

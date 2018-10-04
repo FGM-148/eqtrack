@@ -30,7 +30,7 @@
                 <th>Internal Number</th>
                 <th>Source of Delivery</th>
                 <th>Delivery Date</th>
-                <th>In ICT Storage</th>
+                <th>Assignee</th>
                 <th>View</th>
                 <th>Edit</th>
                 <th>Delete</th>
@@ -48,7 +48,8 @@
                 <!--<td th:text="${item.sourceOfDelivery.street}"></td>-->
                 <!--<td th:text="${item.sourceOfDelivery.number}"></td>-->
                 <td th:text="${item.deliveryDate}"></td>
-                <td th:text="${item.inStorage}"></td>
+                <td th:if="${item.inStorage}">In Storage</td>
+                <td th:unless="${item.inStorage}"><a th:text="${item.user}" th:href="${'/user/show/' + item.user.id}"></a></td>
                 <td><a th:href="${'/item/show/' + item.id}">View</a> </td>
                 <td><a th:href="${'/item/edit/' + item.id}">Edit</a> </td>
                 <td><a th:href="${'/item/delete/' + item.id}">Delete</a> </td>

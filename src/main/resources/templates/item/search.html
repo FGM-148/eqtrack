@@ -56,7 +56,8 @@
                     <!--<td th:text="${search.sourceOfDelivery.street}"></td>-->
                     <!--<td th:text="${search.sourceOfDelivery.number}"></td>-->
                     <td th:text="${search.deliveryDate}"></td>
-                    <td th:text="${search.inStorage}"></td>
+                    <td th:if="${search.inStorage}">In Storage</td>
+                    <td th:unless="${search.inStorage}"><a th:text="${search.user}" th:href="${'/user/show/' + search.user.id}"></a></td>
                     <td><a th:href="${'/item/show/' + search.id}">View</a> </td>
                     <td><a th:href="${'/item/edit/' + search.id}">Edit</a> </td>
                     <td><a th:href="${'/item/delete/' + search.id}">Delete</a> </td>

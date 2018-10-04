@@ -2,6 +2,7 @@ package com.ms.et.controllers;
 
 import com.ms.et.commands.UserForm;
 import com.ms.et.converters.UserToUserForm;
+import com.ms.et.domain.Item;
 import com.ms.et.domain.User;
 import com.ms.et.services.RoleService;
 import com.ms.et.services.UserService;
@@ -15,8 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class UserController {
@@ -62,8 +66,14 @@ public class UserController {
     }
 
     @RequestMapping("/user/show/{id}")
-    public String getUser(@PathVariable String id, Model model) {
+    public String getUser(@PathVariable String id, Model model, HttpServletRequest request) {
         model.addAttribute("user", userService.getById(Long.valueOf(id)));
+        List<Item> myItems = new ArrayList();
+        User user = userService.getById(new Long(id));
+        Set<Item> userItems = user.getItems();
+        userItems.forEach(myItems::add);
+        model.addAttribute("items", myItems);
+        model.addAttribute("referer", request.getHeader("Referer"));
         return "user/show";
     }
 
