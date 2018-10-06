@@ -12,6 +12,7 @@ public class ItemForm {
     private String mInternalNumber;
     private Company company;
     private AddressForm sourceOfDelivery;
+    private Boolean inStorage;
 
     public Long getId() {
         return id;
@@ -65,5 +66,13 @@ public class ItemForm {
 
     public void setCompany(Company company) {
         this.company = company;
+    }
+
+    public Boolean getInStorage() {
+        return inStorage;
+    }
+
+    public void setInStorage(Boolean inStorage) {
+        this.inStorage = inStorage;
     }
 }

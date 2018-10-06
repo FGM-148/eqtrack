@@ -17,6 +17,10 @@ public class ItemFormToItem implements Converter<ItemForm, Item> {
         Item item =  new Item();
         if (itemForm.getId() != null && !StringUtils.isEmpty(itemForm.getId())) {
             item.setId(new Long(itemForm.getId()));
+            item.setInStorage(itemForm.getInStorage());
+        }
+        else {
+            itemForm.setInStorage(false);
         }
         item.setSourceOfDelivery(addressFormToAddress.convert(itemForm.getSourceOfDelivery()));
         item.setDeliveryDate(itemForm.getDeliveryDate());
@@ -24,6 +28,7 @@ public class ItemFormToItem implements Converter<ItemForm, Item> {
         item.setSerialNumber(itemForm.getSerialNumber());
         item.setName(itemForm.getName());
         item.setCompany(itemForm.getCompany());
+        item.setInStorage(itemForm.getInStorage());
         return item;
     }
 }

@@ -21,6 +21,7 @@ public class ItemToItemForm implements Converter<Item, ItemForm> {
         itemForm.setSerialNumber(item.getSerialNumber());
         itemForm.setName(item.getName());
         itemForm.setCompany(item.getCompany());
+        itemForm.setInStorage(item.isInStorage());
         return itemForm;
     }
 }

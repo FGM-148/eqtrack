@@ -30,6 +30,7 @@
             </div>
 
             <input type="hidden" th:field="*{id}"/>
+            <input type="hidden" th:field="*{inStorage}"/>
 
             <div class="form-group" th:class="${#fields.hasErrors('name')} ? 'form-group has-error' : 'form-group'">
                 <label class="col-sm-2 control-label">Name:</label>
