@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -56,6 +57,7 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
+    @Transactional
     public Item saveOrUpdate(Item item) {
         boolean newItem = false;
         if (item.getId() == null) {
@@ -77,6 +79,7 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         Archive archive = new Archive();
         Item item = itemRepository.findById(id).orElse(null);
@@ -101,6 +104,7 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
+    @Transactional
     public Item saveOrUpdateItemForm(ItemForm itemForm) {
         Item savedItem = saveOrUpdate(mItemFormToItem.convert(itemForm));
         System.out.println("Saved Item Id: " + savedItem.getId());
@@ -148,6 +152,7 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
+    @Transactional
     public void assignItemToUser(Item item, User user) {
         item.setUser(user);
         item.setInStorage(false);
@@ -160,6 +165,7 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
+    @Transactional
     public void returnToIct(Item item) {
         item.setUser(null);
         item.setProject(null);
@@ -173,6 +179,7 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
+    @Transactional
     public void assignItemToProject(ChooseProjectForm chooseProjectForm) {
         Long itemId = chooseProjectForm.getItemId();
         Project project = chooseProjectForm.getProject();

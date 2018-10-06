@@ -8,6 +8,7 @@ import com.ms.et.repositories.RoleRepository;
 import com.ms.et.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,12 +45,14 @@ public class RoleServiceImpl implements RoleService{
     }
 
     @Override
+    @Transactional
     public Role saveOrUpdate(Role role) {
         roleRepository.save(role);
         return role;
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         Iterable<User> users = userRepository.findAll();
         for (User user : users) {
@@ -65,6 +68,7 @@ public class RoleServiceImpl implements RoleService{
     }
 
     @Override
+    @Transactional
     public Role saveOrUpdateRoleForm(RoleForm roleForm) {
         Role savedRole = saveOrUpdate(roleFormToRole.convert(roleForm));
         System.out.println("Saved Role Id: " + savedRole.getId());

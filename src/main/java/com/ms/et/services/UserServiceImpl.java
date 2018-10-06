@@ -10,6 +10,7 @@ import com.ms.et.services.specification.UserSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,17 +40,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User saveOrUpdate(User user) {
         userRepository.save(user);
         return user;
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         userRepository.deleteById(id);
     }
 
     @Override
+    @Transactional
     public User saveOrUpdateUserForm(UserForm userForm) {
         User savedUser = saveOrUpdate(userFormToUser.convert(userForm));
         System.out.println("Saved User Id: " + savedUser.getId());
@@ -64,8 +68,10 @@ public class UserServiceImpl implements UserService {
                 new UserSpecification(new SpecSearchCriteria("lastName", SearchOperation.CONTAINS, q));
         UserSpecification spec3 =
                 new UserSpecification(new SpecSearchCriteria("email", SearchOperation.CONTAINS, q));
+        UserSpecification spec4 =
+                new UserSpecification(new SpecSearchCriteria("name", SearchOperation.CONTAINS, q));
 
-        List<User> results = userRepository.findAll(Specifications.where(spec1).or(spec2).or(spec3));
+        List<User> results = userRepository.findAll(Specifications.where(spec1).or(spec2).or(spec3).or(spec4));
         return results;
     }
 }

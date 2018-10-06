@@ -7,6 +7,7 @@ import com.ms.et.domain.User;
 import com.ms.et.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,22 +32,26 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    @Transactional
     public Project saveOrUpdate(Project project) {
         projectRepository.save(project);
         return project;
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         projectRepository.deleteById(id);
     }
 
     @Override
+    @Transactional
     public Project saveOrUpdateProjectForm(ProjectForm projectForm) {
         return saveOrUpdate(projectFormToProject.convert(projectForm));
     }
 
     @Override
+    @Transactional
     public void assignProjectToUser(Project project, User user) {
         project.setUser(user);
         projectRepository.save(project);

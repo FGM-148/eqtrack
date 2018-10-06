@@ -4,6 +4,7 @@ import com.ms.et.domain.ItemChangeLog;
 import com.ms.et.repositories.ItemChangeLogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,12 +27,14 @@ public class ItemChangeLogServiceImpl implements ItemChangeLogService {
     }
 
     @Override
+    @Transactional
     public ItemChangeLog saveOrUpdate(ItemChangeLog itemChangeLog) {
         itemChangeLogRepository.save(itemChangeLog);
         return itemChangeLog;
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         itemChangeLogRepository.deleteById(id);
     }

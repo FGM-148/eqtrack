@@ -16,10 +16,23 @@
 
     <link href="../../static/css/spring-core.css"
           th:href="@{css/spring-core.css}" rel="stylesheet" media="screen"/>
+    <style>
+        #mydiv {
+    position:fixed;
+    top: 50%;
+    left: 50%;
+    width:30em;
+    height:18em;
+    margin-top: -9em; /*set to a negative number 1/2 of your height*/
+    margin-left: -15em; /*set to a negative number 1/2 of your width*/
+}
+    </style>
 </head>
 <body>
 <header th:insert="fragments/general.html :: header"> </header>
+<div id="mydiv">
+    <h1 class="text-center display-4">teito</h1>
+</div>
 
-<h1 class="text-center">teito</h1>
 </body>
 </html>
