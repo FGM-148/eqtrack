@@ -38,10 +38,10 @@ public class ItemController {
     private ItemToItemForm itemToItemForm;
 
     private static int currentPage = 1;
-    private static int pageSize = 10;
+    private static int pageSize = 6;
 
     private static int currentStoragePage = 1;
-    private static int pageStorageSize = 10;
+    private static int pageStorageSize = 6;
 
     @Autowired
     private UserService userService;
@@ -69,9 +69,7 @@ public class ItemController {
             searchResults = itemService.fuzzySearchAll(q);
 
         } catch (Exception ex) {
-            // here you should handle unexpected errors
-            // ...
-            // throw ex;
+            return "redirect:/exception";
         }
         model.addAttribute("search", searchResults);
         return "item/search";

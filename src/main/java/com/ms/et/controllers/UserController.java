@@ -50,9 +50,7 @@ public class UserController {
             searchResults = userService.fuzzySearch(q);
 
         } catch (Exception ex) {
-            // here you should handle unexpected errors
-            // ...
-            // throw ex;
+            return "redirect:/exception";
         }
         model.addAttribute("search", searchResults);
         return "user/search";

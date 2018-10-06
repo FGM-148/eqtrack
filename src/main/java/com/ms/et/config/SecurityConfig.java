@@ -63,7 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/item/show").hasAuthority("READ_ITEM")
                 .antMatchers("/item/new").hasAuthority("WRITE_ITEM")
-                .antMatchers("/item/edit").hasAuthority("EDIT_ITEM")
+                .antMatchers("/item/edit/**").hasAuthority("WRITE_ITEM")
                 .antMatchers("/item/delete/**").hasAuthority("WRITE_ITEM")
                 .anyRequest().authenticated().and()
                 .formLogin().permitAll().and()
