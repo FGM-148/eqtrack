@@ -1,6 +1,8 @@
 package com.ms.et.commands;
 
 import com.ms.et.domain.Company;
+import com.ms.et.domain.Project;
+import com.ms.et.domain.User;
 
 import java.sql.Date;
 
@@ -13,6 +15,8 @@ public class ItemForm {
     private Company company;
     private AddressForm sourceOfDelivery;
     private Boolean inStorage;
+    private Project project;
+    private User user;
 
     public Long getId() {
         return id;
@@ -74,5 +78,21 @@ public class ItemForm {
 
     public void setInStorage(Boolean inStorage) {
         this.inStorage = inStorage;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

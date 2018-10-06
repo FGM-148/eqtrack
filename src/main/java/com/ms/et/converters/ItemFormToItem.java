@@ -29,6 +29,8 @@ public class ItemFormToItem implements Converter<ItemForm, Item> {
         item.setName(itemForm.getName());
         item.setCompany(itemForm.getCompany());
         item.setInStorage(itemForm.getInStorage());
+        item.setProject(itemForm.getProject());
+        item.setUser(itemForm.getUser());
         return item;
     }
 }
